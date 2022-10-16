@@ -1,6 +1,6 @@
 package com.telran.blog.entities;
 
-import com.telran.blog.entities.type.Status;
+import com.telran.blog.entities.type.BlogStatus;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,14 +29,15 @@ public class BlogPost {
     @Column(name = "body")
     private String body;
 
-    @OneToOne(mappedBy = "author")
+    @ManyToOne
+    @JoinColumn(name = "author_id")
     private BlogUser author;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private Status status;
+    private BlogStatus status;
 
-    @ManyToMany(mappedBy = "tag")
+    @ManyToMany
     private List<Tag> tags;
 
     @Column(name = "updated_on")

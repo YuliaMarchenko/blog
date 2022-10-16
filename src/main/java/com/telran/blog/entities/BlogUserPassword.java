@@ -26,6 +26,7 @@ public class BlogUserPassword {
     @Column(name = "salt")
     private String salt;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private BlogUser user;
 }

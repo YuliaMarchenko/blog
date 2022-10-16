@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+
+    <changeSet author="yulia_marchenko" id="1">
+
+        <createTable tableName="blog_user">
+
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="blog_user_pkey"/>
+            </column>
+
+            <column name="user_name" type="VARCHAR(255)"/>
+
+            <column name="first_name" type="VARCHAR(255)"/>
+
+            <column name="last_name" type="VARCHAR(255)"/>
+
+            <column name="account_status" type="VARCHAR(255)"/>
+
+            <column name ="updated_on" type="TIMESTAMP"/>
+
+            <column name ="created_on" type="TIMESTAMP"/>
+
+        </createTable>
+
+        <createTable tableName="blog_post">
+
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="blog_post_pkey"/>
+            </column>
+
+            <column name="title" type="VARCHAR(255)"/>
+
+            <column name="body" type="VARCHAR(255)"/>
+
+            <column name="author_id" type="BIGINT">
+            <constraints foreignKeyName="author_id_blog_user_id"
+                         referencedTableName="blog_user"
+                         referencedColumnNames="id"/>
+            </column>
+
+            <column name="account_status" type="VARCHAR(255)"/>
+
+            <column name ="updated_on" type="TIMESTAMP"/>
+
+            <column name ="created_on" type="TIMESTAMP"/>
+
+        </createTable>
+
+        <createTable tableName="blog_user_password">
+
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="blog_user_password_pkey"/>
+            </column>
+
+            <column name="password" type="VARCHAR(255)"/>
+
+            <column name="salt" type="VARCHAR(255)"/>
+
+            <column name="user_id" type="BIGINT">
+                <constraints foreignKeyName="user_id_blog_user_id_user"
+                             referencedTableName="blog_user"
+                             referencedColumnNames="id"/>
+            </column>
+
+        </createTable>
+
+        <createTable tableName="tag">
+
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="tag_pkey"/>
+            </column>
+
+            <column name="name" type="VARCHAR(255)"/>
+
+        </createTable>
+
+        <createTable tableName="blog_post_tag">
+
+            <column name="blog_post_id" type="BIGINT">
+                <constraints foreignKeyName="blog_post_id_blog_post"
+                             referencedTableName="blog_post"
+                             referencedColumnNames="id"/>
+            </column>
+
+            <column name="tag_id" type="BIGINT">
+                <constraints foreignKeyName="tag_id_id"
+                             referencedTableName="tag"
+                             referencedColumnNames="id"/>
+            </column>
+
+        </createTable>
+
+    </changeSet>
+
+</databaseChangeLog>

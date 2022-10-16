@@ -1,6 +1,6 @@
 package com.telran.blog.entities.type;
 
-public enum Status {
+public enum BlogStatus {
     PUBLISHED,
     UNPUBLISHED,
     BLOCKED;
