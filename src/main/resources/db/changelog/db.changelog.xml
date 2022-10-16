@@ -96,4 +96,11 @@
 
     </changeSet>
 
+    <changeSet author="yulia_marchenko" id="2">
+        <renameColumn columnDataType="VARCHAR(255)"
+                      newColumnName="status"
+                      oldColumnName="account_status"
+                      tableName="blog_post"/>
+    </changeSet>
+
 </databaseChangeLog>
