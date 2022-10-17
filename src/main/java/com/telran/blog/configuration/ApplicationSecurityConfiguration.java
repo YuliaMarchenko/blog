@@ -23,7 +23,7 @@ public class ApplicationSecurityConfiguration {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/entry/registration", "/entry/login", "/entry/public", "/posts/create").permitAll()
+                .antMatchers("/entry/registration", "/entry/login", "/entry/public", "/posts/create", "/posts", "/posts/{id}").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout().disable()
