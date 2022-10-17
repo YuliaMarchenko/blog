@@ -1,15 +1,23 @@
 package com.telran.blog.service.impl;
 
+import com.telran.blog.dto.RequestLoginDTO;
 import com.telran.blog.dto.RequestRegistrationDTO;
+import com.telran.blog.dto.ResponseLoginDTO;
 import com.telran.blog.dto.ResponseRegistrationDTO;
 import com.telran.blog.entities.BlogUser;
 import com.telran.blog.entities.BlogUserPassword;
+import com.telran.blog.entities.BlogUserSession;
 import com.telran.blog.repository.BlogUserPasswordRepository;
 import com.telran.blog.repository.BlogUserRepository;
+import com.telran.blog.repository.BlogUserSessionRepository;
 import com.telran.blog.service.EntryService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -18,6 +26,8 @@ public class EntryServiceImpl implements EntryService {
 
     private final BlogUserRepository blogUserRepository;
     private final BlogUserPasswordRepository blogUserPasswordRepository;
+
+    private final BlogUserSessionRepository blogUserSessionRepository;
 
     public void generateAndSavePassword(BlogUser user, String password) {
         String salt = BCrypt.gensalt();
@@ -30,6 +40,20 @@ public class EntryServiceImpl implements EntryService {
                 .build();
 
         blogUserPasswordRepository.save(userPassword);
+    }
+
+    public BlogUser getMatchedBlogUser(String userName, String password) {
+        BlogUser blogUser = blogUserRepository.findBlogUserByUserName(userName);
+
+        if (blogUser == null) {
+            return null;
+        }
+
+       BlogUserPassword blogUserPassword = blogUserPasswordRepository.findBlogUserPasswordByUser(blogUser);
+
+        var actualPasswordHash = BCrypt.hashpw(password, blogUserPassword.getSalt());
+
+        return actualPasswordHash.equals(blogUserPassword.getPassword()) ? blogUser : null;
     }
 
     @Override
@@ -49,4 +73,31 @@ public class EntryServiceImpl implements EntryService {
                 .id(blogUser.getId())
                 .build();
     }
+
+    @Override
+    public ResponseLoginDTO login(RequestLoginDTO requestLoginDTO) {
+
+        BlogUser blogUser = getMatchedBlogUser(requestLoginDTO.getUserName(), requestLoginDTO.getPassword());
+        if (blogUser == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+
+        BlogUserSession blogUserSession = BlogUserSession.builder()
+                .blogUser(blogUser)
+                .sessionId(UUID.randomUUID().toString())
+                .build();
+
+        blogUserSessionRepository.save(blogUserSession);
+
+        return ResponseLoginDTO.builder()
+                .sessionId(blogUserSession.getSessionId())
+                .build();
+    }
+
+    @Override
+    public void logout(BlogUserSession blogUserSession) {
+        blogUserSessionRepository.delete(blogUserSession);
+    }
+
+
 }

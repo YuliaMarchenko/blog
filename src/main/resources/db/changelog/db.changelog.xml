@@ -115,4 +115,24 @@
                       tableName="blog_post_tags"/>
     </changeSet>
 
+    <changeSet author="yulia_marchenko" id="5">
+        <createTable tableName="blog_user_session">
+
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="blog_user_session_pkey"/>
+            </column>
+
+            <column name="session_id" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="blog_user_session_unique_session_id"/>
+            </column>
+
+            <column name="user_id" type="BIGINT">
+            <constraints foreignKeyName="user_id_blog_user_session"
+                         referencedTableName="blog_user"
+                         referencedColumnNames="id"/>
+            </column>
+
+        </createTable>
+    </changeSet>
+
 </databaseChangeLog>
