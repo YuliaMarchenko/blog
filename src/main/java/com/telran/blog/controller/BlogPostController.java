@@ -3,6 +3,7 @@ package com.telran.blog.controller;
 import com.telran.blog.dto.RequestPostCreateDTO;
 import com.telran.blog.dto.ResponsePostCreateDTO;
 import com.telran.blog.dto.ResponsePostGetDTO;
+import com.telran.blog.dto.ResponsePostGetFullDTO;
 import com.telran.blog.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class BlogPostController {
     }
 
     @GetMapping("/posts/{id}")
-    public ResponsePostGetDTO getPost(@PathVariable("id") Long id){
+    public ResponsePostGetFullDTO getPost(@PathVariable("id") Long id){
         return postService.getPost(id);
     }
 }

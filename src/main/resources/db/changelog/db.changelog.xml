@@ -103,4 +103,16 @@
                       tableName="blog_post"/>
     </changeSet>
 
+    <changeSet author="yulia_marchenko" id="3">
+        <renameTable newTableName="blog_post_tags"
+                      oldTableName="blog_post_tag"/>
+    </changeSet>
+
+    <changeSet author="yulia_marchenko" id="4">
+        <renameColumn columnDataType="BIGINT"
+                      newColumnName="tags_id"
+                      oldColumnName="tag_id"
+                      tableName="blog_post_tags"/>
+    </changeSet>
+
 </databaseChangeLog>

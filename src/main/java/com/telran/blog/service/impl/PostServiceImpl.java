@@ -3,6 +3,7 @@ package com.telran.blog.service.impl;
 import com.telran.blog.dto.RequestPostCreateDTO;
 import com.telran.blog.dto.ResponsePostCreateDTO;
 import com.telran.blog.dto.ResponsePostGetDTO;
+import com.telran.blog.dto.ResponsePostGetFullDTO;
 import com.telran.blog.entities.BlogPost;
 import com.telran.blog.entities.BlogUser;
 import com.telran.blog.entities.converter.PostConverter;
@@ -62,8 +63,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public ResponsePostGetDTO getPost(Long id) {
+    public ResponsePostGetFullDTO getPost(Long id) {
         BlogPost post = postRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        return PostConverter.convertToPostGetDTO(post);
+        return PostConverter.convertToPostGetFullDTO(post);
     }
 }
