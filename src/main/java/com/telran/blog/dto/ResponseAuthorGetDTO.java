@@ -1,9 +1,6 @@
 package com.telran.blog.dto;
 
-import com.telran.blog.entities.BlogPost;
 import lombok.*;
-
-import java.util.List;
 
 @Builder
 @Getter
@@ -11,11 +8,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class ResponseAuthorByIdDTO {
+public class ResponseAuthorGetDTO {
 
     private Long authorId;
     private String authorFirstName;
     private String authorLastName;
     private String authorUserName;
-    private List<ResponsePostGetDTO> blogs;
+    private Long blogsCount;
 }

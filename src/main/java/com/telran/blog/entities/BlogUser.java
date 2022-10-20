@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.List;
 
 @Entity
 @Table(name = "blog_user")
@@ -40,4 +41,7 @@ public class BlogUser{
 
     @Column(name = "created_on")
     private Instant createdOn;
+
+    @OneToMany(mappedBy = "author")
+    private List<BlogPost> posts;
  }
