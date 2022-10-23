@@ -30,7 +30,7 @@ public class PostConverter {
                                 .id(tag.getId())
                                 .name(tag.getName())
                                 .build()).toList())
-                .author(blogPost.getAuthor())
+                .authorId(blogPost.getAuthor().getId())
                 .status(blogPost.getStatus())
                 .updatedDate(blogPost.getUpdatedOn())
                 .createdDate(blogPost.getCreatedOn())

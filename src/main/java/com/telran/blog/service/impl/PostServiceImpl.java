@@ -37,7 +37,7 @@ public class PostServiceImpl implements PostService {
                 .title(requestPostCreateDTO.getTitle())
                 .body(requestPostCreateDTO.getBody())
                 .tags(requestPostCreateDTO.getTags())
-                .status(BlogStatus.PUBLISHED)
+                .status(BlogStatus.UNPUBLISHED)
                 .author(author)
                 .build();
 
@@ -65,6 +65,22 @@ public class PostServiceImpl implements PostService {
     @Override
     public ResponsePostGetFullDTO getPost(Long id) {
         BlogPost post = postRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return PostConverter.convertToPostGetFullDTO(post);
+    }
+
+    @Override
+    public ResponsePostGetFullDTO putPostPublishedStatus(Long id) {
+        BlogPost post = postRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        post.setStatus(BlogStatus.PUBLISHED);
+        post = postRepository.save(post);
+        return PostConverter.convertToPostGetFullDTO(post);
+    }
+
+    @Override
+    public ResponsePostGetFullDTO putPostUnpublishedStatus(Long id) {
+        BlogPost post = postRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        post.setStatus(BlogStatus.UNPUBLISHED);
+        post = postRepository.save(post);
         return PostConverter.convertToPostGetFullDTO(post);
     }
 }

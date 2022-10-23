@@ -31,4 +31,14 @@ public class BlogPostController {
     public ResponsePostGetFullDTO getPost(@PathVariable("id") Long id){
         return postService.getPost(id);
     }
+
+    @PutMapping("/posts/{id}/publish")
+    public ResponsePostGetFullDTO putPostPublishedStatus(@PathVariable("id") Long id){
+        return postService.putPostPublishedStatus(id);
+    }
+
+    @PutMapping("/posts/{id}/unpublish")
+    public ResponsePostGetFullDTO putPostUnpublishedStatus(@PathVariable("id") Long id){
+        return postService.putPostUnpublishedStatus(id);
+    }
 }

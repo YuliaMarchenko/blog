@@ -20,7 +20,7 @@ public class ResponsePostGetFullDTO {
     private String title;
     private String body;
     private List<ResponseTagDTO> tags;
-    private BlogUser author;
+    private Long authorId;
     private BlogStatus status;
     private Instant updatedDate;
     private Instant createdDate;

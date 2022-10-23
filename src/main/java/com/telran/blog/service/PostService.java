@@ -11,4 +11,7 @@ public interface PostService {
     ResponsePostCreateDTO createPost(RequestPostCreateDTO postCreateDTO);
     List<ResponsePostGetDTO> getPosts();
     ResponsePostGetFullDTO getPost(Long id);
+
+    ResponsePostGetFullDTO  putPostPublishedStatus(Long id);
+    ResponsePostGetFullDTO  putPostUnpublishedStatus(Long id);
 }
