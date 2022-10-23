@@ -1,9 +1,6 @@
 package com.telran.blog.service;
 
-import com.telran.blog.dto.RequestPostCreateDTO;
-import com.telran.blog.dto.ResponsePostCreateDTO;
-import com.telran.blog.dto.ResponsePostGetDTO;
-import com.telran.blog.dto.ResponsePostGetFullDTO;
+import com.telran.blog.dto.*;
 
 import java.util.List;
 
@@ -14,4 +11,6 @@ public interface PostService {
 
     ResponsePostGetFullDTO  putPostPublishedStatus(Long id);
     ResponsePostGetFullDTO  putPostUnpublishedStatus(Long id);
+
+    List<ResponsePostGetDTO> searchPosts(RequestPostSearchDTO requestPostSearchDTO);
 }

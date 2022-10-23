@@ -1,9 +1,6 @@
 package com.telran.blog.controller;
 
-import com.telran.blog.dto.RequestPostCreateDTO;
-import com.telran.blog.dto.ResponsePostCreateDTO;
-import com.telran.blog.dto.ResponsePostGetDTO;
-import com.telran.blog.dto.ResponsePostGetFullDTO;
+import com.telran.blog.dto.*;
 import com.telran.blog.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -40,5 +37,10 @@ public class BlogPostController {
     @PutMapping("/posts/{id}/unpublish")
     public ResponsePostGetFullDTO putPostUnpublishedStatus(@PathVariable("id") Long id){
         return postService.putPostUnpublishedStatus(id);
+    }
+
+    @PostMapping("/posts/search")
+    public List<ResponsePostGetDTO> searchPosts(@RequestBody RequestPostSearchDTO requestPostSearchDTO){
+        return postService.searchPosts(requestPostSearchDTO);
     }
 }

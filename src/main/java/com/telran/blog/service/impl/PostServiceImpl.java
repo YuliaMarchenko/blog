@@ -1,9 +1,6 @@
 package com.telran.blog.service.impl;
 
-import com.telran.blog.dto.RequestPostCreateDTO;
-import com.telran.blog.dto.ResponsePostCreateDTO;
-import com.telran.blog.dto.ResponsePostGetDTO;
-import com.telran.blog.dto.ResponsePostGetFullDTO;
+import com.telran.blog.dto.*;
 import com.telran.blog.entities.BlogPost;
 import com.telran.blog.entities.BlogUser;
 import com.telran.blog.entities.Tag;
@@ -66,7 +63,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<ResponsePostGetDTO> getPosts() {
-        return postRepository.findAll().stream()
+        return postRepository.findBlogPostByStatusOrderByCreatedOnDesc(BlogStatus.PUBLISHED).stream()
                 .map(blogPost -> PostConverter.convertToPostGetDTO(blogPost)).toList();
     }
 
@@ -90,6 +87,12 @@ public class PostServiceImpl implements PostService {
         post.setStatus(BlogStatus.UNPUBLISHED);
         post = postRepository.save(post);
         return PostConverter.convertToPostGetFullDTO(post);
+    }
+
+    @Override
+    public List<ResponsePostGetDTO> searchPosts(RequestPostSearchDTO requestPostSearchDTO) {
+        List<BlogPost> blogs = postRepository.findByTitle(requestPostSearchDTO.getTitle());
+        return blogs.stream().map(blog -> PostConverter.convertToPostGetDTO(blog)).toList();
     }
 
     private Tag findOrCreateTag(String str){
