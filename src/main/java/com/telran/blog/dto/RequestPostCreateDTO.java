@@ -15,6 +15,6 @@ public class RequestPostCreateDTO {
 
     private String title;
     private String body;
-    private List<Tag> tags;
+    private List<String> tags;
     private Long authorId;
 }

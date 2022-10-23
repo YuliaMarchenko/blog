@@ -6,10 +6,12 @@ import com.telran.blog.dto.ResponsePostGetDTO;
 import com.telran.blog.dto.ResponsePostGetFullDTO;
 import com.telran.blog.entities.BlogPost;
 import com.telran.blog.entities.BlogUser;
+import com.telran.blog.entities.Tag;
 import com.telran.blog.entities.converter.PostConverter;
 import com.telran.blog.entities.type.BlogStatus;
 import com.telran.blog.repository.BlogPostRepository;
 import com.telran.blog.repository.BlogUserRepository;
+import com.telran.blog.repository.TagRepository;
 import com.telran.blog.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,8 +29,14 @@ public class PostServiceImpl implements PostService {
     private final BlogPostRepository postRepository;
     private final BlogUserRepository blogUserRepository;
 
+    private final TagRepository tagRepository;
+
     @Override
     public ResponsePostCreateDTO createPost(RequestPostCreateDTO requestPostCreateDTO) {
+
+        List<Tag> tags = requestPostCreateDTO.getTags().stream()
+                .map(tagName -> findOrCreateTag(tagName))
+                .toList();
 
         BlogUser author = blogUserRepository.findById(requestPostCreateDTO.getAuthorId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -36,7 +44,7 @@ public class PostServiceImpl implements PostService {
         BlogPost blogPost  = BlogPost.builder()
                 .title(requestPostCreateDTO.getTitle())
                 .body(requestPostCreateDTO.getBody())
-                .tags(requestPostCreateDTO.getTags())
+                .tags(tags)
                 .status(BlogStatus.UNPUBLISHED)
                 .author(author)
                 .build();
@@ -50,7 +58,7 @@ public class PostServiceImpl implements PostService {
                 .blogId(blogPost.getId())
                 .title(blogPost.getTitle())
                 .body(blogPost.getBody())
-                .tags(blogPost.getTags())
+                .tags(blogPost.getTags().stream().map(tag -> tag.getName()).toList())
                 .status(blogPost.getStatus())
                 .authorId(author.getId())
                 .build();
@@ -82,5 +90,16 @@ public class PostServiceImpl implements PostService {
         post.setStatus(BlogStatus.UNPUBLISHED);
         post = postRepository.save(post);
         return PostConverter.convertToPostGetFullDTO(post);
+    }
+
+    private Tag findOrCreateTag(String str){
+        Tag tag = tagRepository.findByName(str);
+        if (tag == null){
+            tag = Tag.builder()
+                    .name(str)
+                    .build();
+            tag = tagRepository.save(tag);
+        }
+        return tag;
     }
 }

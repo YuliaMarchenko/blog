@@ -18,7 +18,7 @@ public class ResponsePostCreateDTO {
     private Long blogId;
     private String title;
     private String body;
-    private List<Tag> tags;
+    private List<String> tags;
     private BlogStatus status;
     private Long authorId;
 }
