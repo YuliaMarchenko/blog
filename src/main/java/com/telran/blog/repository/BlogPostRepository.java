@@ -16,4 +16,5 @@ public interface BlogPostRepository extends JpaRepository<BlogPost, Long> {
     List<BlogPost> findByTitle(String title);
 
     List<BlogPost> findBlogPostByStatusOrderByCreatedOnDesc(BlogStatus status);
+
 }

@@ -15,4 +15,6 @@ public interface PostService {
     ResponsePostGetFullDTO  putPostBlockStatus(Long id);
 
     List<ResponsePostGetDTO> searchPosts(RequestPostSearchDTO requestPostSearchDTO);
+
+    void deletePost(Long id);
 }

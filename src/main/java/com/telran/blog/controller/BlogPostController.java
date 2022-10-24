@@ -48,4 +48,9 @@ public class BlogPostController {
     public List<ResponsePostGetDTO> searchPosts(@RequestBody RequestPostSearchDTO requestPostSearchDTO){
         return postService.searchPosts(requestPostSearchDTO);
     }
+
+    @DeleteMapping("/posts/{id}")
+    public void deletePost(@PathVariable("id") Long id){
+        postService.deletePost(id);
+    }
 }

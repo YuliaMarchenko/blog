@@ -108,6 +108,11 @@ public class PostServiceImpl implements PostService {
         return blogs.stream().map(blog -> PostConverter.convertToPostGetDTO(blog)).toList();
     }
 
+    @Override
+    public void deletePost(Long id) {
+        postRepository.deleteById(id);
+    }
+
     private Tag findOrCreateTag(String str){
         Tag tag = tagRepository.findByName(str);
         if (tag == null){
