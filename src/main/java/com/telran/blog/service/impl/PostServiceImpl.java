@@ -25,7 +25,6 @@ public class PostServiceImpl implements PostService {
 
     private final BlogPostRepository postRepository;
     private final BlogUserRepository blogUserRepository;
-
     private final TagRepository tagRepository;
 
     @Override
@@ -111,6 +110,18 @@ public class PostServiceImpl implements PostService {
     @Override
     public void deletePost(Long id) {
         postRepository.deleteById(id);
+    }
+
+    @Override
+    public List<ResponsePostGetDTO> searchPostsByUserName(String userName) {
+        BlogUser user = blogUserRepository.findBlogUserByUserName(userName);
+        if (user == null) {
+            new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        List<BlogPost> blogs = postRepository.findBlogPostByAuthorAndStatus(user, BlogStatus.PUBLISHED);
+
+        return blogs.stream().map(blog -> PostConverter.convertToPostGetDTO(blog)).toList();
     }
 
     private Tag findOrCreateTag(String str){

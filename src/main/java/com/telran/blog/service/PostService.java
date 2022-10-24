@@ -17,4 +17,6 @@ public interface PostService {
     List<ResponsePostGetDTO> searchPosts(RequestPostSearchDTO requestPostSearchDTO);
 
     void deletePost(Long id);
+
+    List<ResponsePostGetDTO> searchPostsByUserName(String userName);
 }

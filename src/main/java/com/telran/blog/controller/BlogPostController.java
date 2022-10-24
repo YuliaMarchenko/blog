@@ -53,4 +53,9 @@ public class BlogPostController {
     public void deletePost(@PathVariable("id") Long id){
         postService.deletePost(id);
     }
+
+    @GetMapping("/posts/user/{name}")
+    public List<ResponsePostGetDTO> searchPostsByUserName(@PathVariable("name") String userName){
+        return postService.searchPostsByUserName(userName);
+    }
 }
