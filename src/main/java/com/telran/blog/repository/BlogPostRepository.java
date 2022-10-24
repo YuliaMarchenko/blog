@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface BlogPostRepository extends JpaRepository<BlogPost, Long> {
 
-    @Query("SELECT new com.telran.blog.aggregation.BlogPostCount(p.author.id, COUNT(p.author.id)) FROM BlogPost AS p GROUP BY p.author")
+    @Query("SELECT new com.telran.blog.aggregation.BlogPostCount(p.author.id, COUNT(p.author.id)) FROM BlogPost AS p WHERE p.status=com.telran.blog.entities.type.BlogStatus.PUBLISHED GROUP BY p.author")
     List<BlogPostCount> blogsCountByAuthor();
 
     List<BlogPost> findByTitle(String title);

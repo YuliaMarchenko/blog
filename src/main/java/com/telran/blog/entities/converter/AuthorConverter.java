@@ -5,6 +5,7 @@ import com.telran.blog.dto.ResponseAuthorGetDTO;
 import com.telran.blog.dto.ResponsePostGetDTO;
 import com.telran.blog.entities.BlogPost;
 import com.telran.blog.entities.BlogUser;
+import com.telran.blog.entities.type.BlogStatus;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class AuthorConverter {
                 .authorUserName(author.getUserName())
                 .blogs(author.getPosts()
                         .stream()
+                        .filter(post -> post.getStatus() == BlogStatus.PUBLISHED)
                         .map(post -> ResponsePostGetDTO.builder()
                                 .blogId(post.getId())
                                 .blogTitle(post.getTitle())
