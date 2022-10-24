@@ -90,6 +90,19 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public ResponsePostGetFullDTO putPostBlockStatus(Long id) {
+        BlogPost post = postRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        switch (post.getStatus()){
+            case BLOCKED:
+                post.setStatus(BlogStatus.PUBLISHED);
+                break;
+            default: post.setStatus(BlogStatus.BLOCKED);
+        }
+        post = postRepository.save(post);
+        return PostConverter.convertToPostGetFullDTO(post);
+    }
+
+    @Override
     public List<ResponsePostGetDTO> searchPosts(RequestPostSearchDTO requestPostSearchDTO) {
         List<BlogPost> blogs = postRepository.findByTitle(requestPostSearchDTO.getTitle());
         return blogs.stream().map(blog -> PostConverter.convertToPostGetDTO(blog)).toList();

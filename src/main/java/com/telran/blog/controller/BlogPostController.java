@@ -39,6 +39,11 @@ public class BlogPostController {
         return postService.putPostUnpublishedStatus(id);
     }
 
+    @PutMapping("/posts/{id}/block")
+    public ResponsePostGetFullDTO putPostBlockStatus(@PathVariable("id") Long id){
+        return postService.putPostBlockStatus(id);
+    }
+
     @PostMapping("/posts/search")
     public List<ResponsePostGetDTO> searchPosts(@RequestBody RequestPostSearchDTO requestPostSearchDTO){
         return postService.searchPosts(requestPostSearchDTO);

@@ -12,5 +12,7 @@ public interface PostService {
     ResponsePostGetFullDTO  putPostPublishedStatus(Long id);
     ResponsePostGetFullDTO  putPostUnpublishedStatus(Long id);
 
+    ResponsePostGetFullDTO  putPostBlockStatus(Long id);
+
     List<ResponsePostGetDTO> searchPosts(RequestPostSearchDTO requestPostSearchDTO);
 }
