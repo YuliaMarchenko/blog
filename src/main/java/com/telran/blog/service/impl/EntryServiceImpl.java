@@ -1,9 +1,6 @@
 package com.telran.blog.service.impl;
 
-import com.telran.blog.dto.RequestLoginDTO;
-import com.telran.blog.dto.RequestRegistrationDTO;
-import com.telran.blog.dto.ResponseLoginDTO;
-import com.telran.blog.dto.ResponseRegistrationDTO;
+import com.telran.blog.dto.*;
 import com.telran.blog.entities.BlogUser;
 import com.telran.blog.entities.BlogUserPassword;
 import com.telran.blog.entities.BlogUserSession;
@@ -99,5 +96,20 @@ public class EntryServiceImpl implements EntryService {
         blogUserSessionRepository.delete(blogUserSession);
     }
 
+    @Override
+    public void updatePassword(RequestUpdatePasswordDTO requestUpdatePasswordDTO) {
+        BlogUser blogUser = getMatchedBlogUser(requestUpdatePasswordDTO.getUserName(), requestUpdatePasswordDTO.getOldPassword());
+        if (blogUser == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
 
+        BlogUserPassword blogUserPassword = blogUserPasswordRepository.findBlogUserPasswordByUser(blogUser);
+
+        String salt = BCrypt.gensalt();
+        String encryptedPassword = BCrypt.hashpw(requestUpdatePasswordDTO.getNewPassword(), salt);
+
+        blogUserPassword.setSalt(salt);
+        blogUserPassword.setPassword(encryptedPassword);
+        blogUserPasswordRepository.save(blogUserPassword);
+    }
 }
