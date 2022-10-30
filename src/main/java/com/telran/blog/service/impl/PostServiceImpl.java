@@ -15,8 +15,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
@@ -26,6 +31,8 @@ public class PostServiceImpl implements PostService {
     private final BlogPostRepository postRepository;
     private final BlogUserRepository blogUserRepository;
     private final TagRepository tagRepository;
+
+    private final EntityManager entityManager;
 
     @Override
     public ResponsePostCreateDTO createPost(RequestPostCreateDTO requestPostCreateDTO) {
@@ -103,9 +110,38 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<ResponsePostGetDTO> searchPosts(RequestPostSearchDTO requestPostSearchDTO) {
-        List<BlogPost> blogs = postRepository.findByTitle(requestPostSearchDTO.getTitle());
-        return blogs.stream().map(blog -> PostConverter.convertToPostGetDTO(blog)).toList();
+
+        Map<String, Object> searchParams = new HashMap<>();
+        StringBuilder query = new StringBuilder();
+
+        query.append("from BlogPost bp where 1 = 1 ");
+
+        if(requestPostSearchDTO.getFirstName() != null){
+            query.append("and bp.author.firstName = :firstName ");
+            searchParams.put("firstName", requestPostSearchDTO.getFirstName());
+        }
+
+        if(requestPostSearchDTO.getLastName() != null){
+            query.append("and bp.author.lastName = :lastName ");
+            searchParams.put("lastName", requestPostSearchDTO.getLastName());
+        }
+
+        if(requestPostSearchDTO.getTitle() != null){
+            query.append("and bp.title = :title ");
+            searchParams.put("title", requestPostSearchDTO.getTitle());
+        }
+
+        if(requestPostSearchDTO.getTags() != null && requestPostSearchDTO.getTags().size() > 0){
+            query.append("and exists (select 1 from bp.tags t where t.name in (:tags)) ");
+            searchParams.put("tags", requestPostSearchDTO.getTags());
+        }
+
+        Query emQuery = entityManager.createQuery(query.toString());
+        searchParams.forEach(emQuery :: setParameter);
+        return emQuery.getResultList().stream().map(blog -> PostConverter.convertToPostGetDTO((BlogPost) blog)).toList();
+
     }
+
 
     @Override
     public void deletePost(Long id) {
