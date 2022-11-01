@@ -2,9 +2,9 @@ package com.telran.blog.entities;
 
 import com.telran.blog.entities.type.BlogStatus;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
-import java.time.Instant;
 import java.util.List;
 
 @Entity
@@ -14,9 +14,9 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 
-public class BlogPost {
+public class BlogPost extends AbstractEntity<Long>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,10 +39,4 @@ public class BlogPost {
 
     @ManyToMany
     private List<Tag> tags;
-
-    @Column(name = "updated_on")
-    private Instant updatedOn;
-
-    @Column(name = "created_on")
-    private Instant createdOn;
 }

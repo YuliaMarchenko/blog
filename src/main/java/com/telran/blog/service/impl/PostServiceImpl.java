@@ -18,7 +18,6 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,7 +88,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public ResponsePostGetFullDTO putPostUnpublishedStatus(Long id) {
-        BlogPost post = postRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        BlogPost post = postRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "post doesn't exist"));
         post.setStatus(BlogStatus.UNPUBLISHED);
         post = postRepository.save(post);
         return PostConverter.convertToPostGetFullDTO(post);
