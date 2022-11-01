@@ -13,4 +13,6 @@ public class ErrorResponseDTO {
 
     private HttpStatus status;
     private String message;
+    private Object errors;
+    private int statusCode;
 }

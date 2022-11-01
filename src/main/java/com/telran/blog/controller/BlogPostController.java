@@ -5,6 +5,7 @@ import com.telran.blog.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -15,7 +16,7 @@ public class BlogPostController {
     private final PostService postService;
 
     @PostMapping("/posts/create")
-    public ResponsePostCreateDTO createPost(@RequestBody RequestPostCreateDTO requestPostCreateDTO){
+    public ResponsePostCreateDTO createPost(@RequestBody @Valid RequestPostCreateDTO requestPostCreateDTO){
         return postService.createPost(requestPostCreateDTO);
     }
 
