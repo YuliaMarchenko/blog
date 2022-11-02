@@ -1,6 +1,5 @@
 package com.telran.blog.entities;
 
-import com.telran.blog.entities.type.AccountStatus;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -31,10 +30,6 @@ public class BlogUser extends AbstractEntity<Long>{
 
     @Column(name = "last_name")
     private String lastName;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "account_status")
-    private AccountStatus accountStatus;
 
     @OneToMany(mappedBy = "author")
     private List<BlogPost> posts;

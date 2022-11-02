@@ -33,7 +33,6 @@ public class BlogPost extends AbstractEntity<Long>{
     @JoinColumn(name = "author_id")
     private BlogUser author;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private BlogStatus status;
 

@@ -4,10 +4,6 @@ import com.telran.blog.dto.ResponsePostGetDTO;
 import com.telran.blog.dto.ResponsePostGetFullDTO;
 import com.telran.blog.dto.ResponseTagDTO;
 import com.telran.blog.entities.BlogPost;
-import com.telran.blog.entities.Tag;
-
-import java.time.Instant;
-import java.util.List;
 
 public class PostConverter {
 

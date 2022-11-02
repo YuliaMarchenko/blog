@@ -20,9 +20,9 @@
 
             <column name="account_status" type="VARCHAR(255)"/>
 
-            <column name ="updated_on" type="TIMESTAMP"/>
+            <column name="updated_on" type="TIMESTAMP"/>
 
-            <column name ="created_on" type="TIMESTAMP"/>
+            <column name="created_on" type="TIMESTAMP"/>
 
         </createTable>
 
@@ -37,16 +37,16 @@
             <column name="body" type="VARCHAR(255)"/>
 
             <column name="author_id" type="BIGINT">
-            <constraints foreignKeyName="author_id_blog_user_id"
-                         referencedTableName="blog_user"
-                         referencedColumnNames="id"/>
+                <constraints foreignKeyName="author_id_blog_user_id"
+                             referencedTableName="blog_user"
+                             referencedColumnNames="id"/>
             </column>
 
             <column name="account_status" type="VARCHAR(255)"/>
 
-            <column name ="updated_on" type="TIMESTAMP"/>
+            <column name="updated_on" type="TIMESTAMP"/>
 
-            <column name ="created_on" type="TIMESTAMP"/>
+            <column name="created_on" type="TIMESTAMP"/>
 
         </createTable>
 
@@ -105,7 +105,7 @@
 
     <changeSet author="yulia_marchenko" id="3">
         <renameTable newTableName="blog_post_tags"
-                      oldTableName="blog_post_tag"/>
+                     oldTableName="blog_post_tag"/>
     </changeSet>
 
     <changeSet author="yulia_marchenko" id="4">
@@ -127,12 +127,26 @@
             </column>
 
             <column name="user_id" type="BIGINT">
-            <constraints foreignKeyName="user_id_blog_user_session"
-                         referencedTableName="blog_user"
-                         referencedColumnNames="id"/>
+                <constraints foreignKeyName="user_id_blog_user_session"
+                             referencedTableName="blog_user"
+                             referencedColumnNames="id"/>
             </column>
 
         </createTable>
+    </changeSet>
+
+    <changeSet author="yulia_marchenko" id="6">
+        <modifyDataType tableName="blog_post" columnName="status" newDataType="BIGINT"/>
+        <modifyDataType tableName="blog_user" columnName="account_status" newDataType="BIGINT"/>
+        <addUniqueConstraint columnNames="user_name"
+                             constraintName="unique_user_name"
+                             tableName="blog_user"/>
+    </changeSet>
+
+    <changeSet author="yulia_marchenko" id="7">
+        <dropColumn tableName="blog_user">
+            <column name="account_status"/>
+        </dropColumn>
     </changeSet>
 
 </databaseChangeLog>

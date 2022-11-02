@@ -3,11 +3,8 @@ package com.telran.blog.entities.converter;
 import com.telran.blog.dto.ResponseAuthorByIdDTO;
 import com.telran.blog.dto.ResponseAuthorGetDTO;
 import com.telran.blog.dto.ResponsePostGetDTO;
-import com.telran.blog.entities.BlogPost;
 import com.telran.blog.entities.BlogUser;
 import com.telran.blog.entities.type.BlogStatus;
-
-import java.util.List;
 
 public class AuthorConverter {
 

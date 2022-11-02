@@ -7,11 +7,8 @@ import com.telran.blog.entities.type.BlogStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+
 
 public interface BlogPostRepository extends JpaRepository<BlogPost, Long> {
 
